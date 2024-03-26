@@ -16,7 +16,7 @@ class FileStorage:
             obj = {}
             for key , value in FileStorage.__objects.items():
                 if isinstance(value, cls):
-                    obj = {key : value}
+                    obj[key] = value
             return obj
 
 
@@ -61,3 +61,4 @@ class FileStorage:
             pass
         else:
             del self.all()[type(obj).__name__ + '.' + str(obj.id)]
+            self.save()
