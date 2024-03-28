@@ -1,6 +1,6 @@
 # 0x00. AirBnB clone - The console
 
-<img align="center" src="https://i.ibb.co/d5N85Nh/hbnb.png">
+<img align="center" src="./web_static/images/hbnb.png">
 
 ## Background Context
 
@@ -130,4 +130,5 @@ JSON of my_model:
 ## Authors
 
 [Mohamed Nour Derbeli](https://github.com/MohamedNourDerbeli)
+
 [Hazem Ouni](https://github.com/jordiindahood)
