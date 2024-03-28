@@ -130,3 +130,4 @@ JSON of my_model:
 ## Authors
 
 [Mohamed Nour Derbeli](https://github.com/MohamedNourDerbeli)
+[Hazem Ouni](https://github.com/jordiindahood)
