@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                 # isolate _id, stripping quotes
                 _id = pline[0].replace('"', "")
                 # possible bug here:
-                # empty quotes register as empty _id when replaced
+                # empty quotes register as empty id when replaced
 
                 # if arguments exist beyond _id
                 pline = pline[2].strip()  # pline is now str
