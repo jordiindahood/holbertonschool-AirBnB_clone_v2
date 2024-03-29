@@ -2,12 +2,13 @@
 """ State Module for HBNB project """
 from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
+from models.base_model import Base
 from models.base_model import BaseModel
 from models.city import City
 import models
 
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """State class"""
 
     __tablename__ = "states"
