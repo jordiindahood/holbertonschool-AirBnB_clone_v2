@@ -3,6 +3,8 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
+from models.amenity import Amenity
+from models.review import Review
 from os import getenv
 import models
 from models.review import Review
@@ -22,7 +24,7 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", backref="place", cascade="delete")
-
+    amenity_ids = []
     if getenv("HBNB_TYPE_STORAGE", None) != "db":
 
         @property
