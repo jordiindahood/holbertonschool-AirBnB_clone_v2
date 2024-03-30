@@ -29,7 +29,7 @@ class DBStorage:
         database = getenv("HBNB_MYSQL_DB")
         self.__engine = create_engine(
             f"mysql+mysqldb://{user}:\
-{password}@{host}/{database}",
+            {password}@{host}/{database}",
             pool_pre_ping=True,
         )
         # drop all tables if the HBNB_ENV is equal to test
