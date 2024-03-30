@@ -38,22 +38,22 @@ class DBStorage:
 
     def all(self, cls=None):
         """Return all instances of a given class"""
-        classes_to_query = (
-            [State, City]
-        )
+        classes_to_query = [State, City]
         if cls is None:
             obj = self.__session.query(State).all()
             for cls in classes_to_query:
                 obj.extend(self.__session.query(cls).all())
         else:
             if isinstance(cls, str):
-                cls = globals()[cls] # Assuming cls is the name of the class
+                cls = globals()[cls]  # Assuming cls is the name of the class
             obj = self.__session.query(cls).all()
         return {"{}.{}".format(type(o).__name__, o.id): o for o in obj}
+
     def new(self, obj):
         """add the object to the current database session"""
         local_obj = self.__session.merge(obj)
         self.__session.add(local_obj)
+
     def save(self):
         """commit the current database session"""
         self.__session.commit()
@@ -66,10 +66,11 @@ class DBStorage:
     def reload(self):
         """reload objects that have been committed"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(
-            bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
     def close(self):
         """Close the working SQLAlchemy session."""
         self.__session.close()
