@@ -11,25 +11,25 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
 
-    id = Column(String(60), primary_key=True)
+    id = Column(String(60), primary_key=True, unique=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """Instatntiates a new model"""
-        if not kwargs:
-            from models import storage
+        """Initialize a new BaseModel.
 
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-        else:
-            date_format = "%Y-%m-%dT%H:%M:%S.%f"
+        Args:
+            *args (any): Unused.
+            **kwargs (dict): Key/value pairs of attributes.
+        """
+        self.id = str(uuid.uuid4())
+        self.created_at = self.updated_at = datetime.utcnow()
+        if kwargs:
             for key, value in kwargs.items():
-                if key not in ["__class__", "created_at", "updated_at"]:
+                if key == "created_at" or key == "updated_at":
+                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                if key != "__class__":
                     setattr(self, key, value)
-                if key in {"created_at", "updated_at"}:
-                    setattr(self, key, datetime.strptime(value, date_format))
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -40,7 +40,7 @@ class BaseModel:
         """Updates updated_at with current time when instance is changed"""
         from models import storage
 
-        self.updated_at = datetime.now()
+        self.updated_at = datetime.utcnow()
         storage.new(self)
         storage.save()
 
@@ -48,7 +48,8 @@ class BaseModel:
         """Convert instance into dict format"""
         dictionary = {}
         dictionary.update(self.__dict__)
-        dictionary.update({"__class__": (str(type(self)).split(".")[-1]).split("'")[0]})
+        dictionary.update({"__class__": (str(type(self)).split(".")
+                                         [-1]).split("'")[0]})
         dictionary["created_at"] = self.created_at.isoformat()
         dictionary["updated_at"] = self.updated_at.isoformat()
         if "_sa_instance_state" in dictionary:
