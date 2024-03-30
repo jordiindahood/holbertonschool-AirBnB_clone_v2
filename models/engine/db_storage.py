@@ -23,22 +23,20 @@ class DBStorage:
         """
         Initialize the DBStorage class with a new SQLAlchemy session.
         """
-        user = getenv("HBNB_MYSQL_USER")
-        password = getenv("HBNB_MYSQL_PWD")
-        host = getenv("HBNB_MYSQL_HOST")
-        database = getenv("HBNB_MYSQL_DB")
-        self.__engine = create_engine(
-            f"mysql+mysqldb://{user}:\
-            {password}@{host}/{database}",
-            pool_pre_ping=True,
-        )
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
+                                      format(getenv("HBNB_MYSQL_USER"),
+                                             getenv("HBNB_MYSQL_PWD"),
+                                             getenv("HBNB_MYSQL_HOST"),
+                                             getenv("HBNB_MYSQL_DB")),
+                                      pool_pre_ping=True)
+
         # drop all tables if the HBNB_ENV is equal to test
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Return all instances of a given class"""
-        classes_to_query = [State, City, User, Place]
+        classes_to_query = [State, City, User, Place, Review]
         if cls is None:
             obj = self.__session.query(State).all()
             for cls in classes_to_query:
