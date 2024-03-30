@@ -145,6 +145,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             obj = HBNBCommand.classes[sp[0]](**kwargs)
             storage.new(obj)
+            storage.close()
         print(obj.id)
         obj.save()
 
