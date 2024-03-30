@@ -61,12 +61,12 @@ class HBNBCommand(cmd.Cmd):
             _cls = pline[: pline.find(".")]
 
             # isolate and validate <command>
-            _cmd = pline[pline.find(".") + 1 : pline.find("(")]
+            _cmd = pline[pline.find(".") + 1: pline.find("(")]
             if _cmd not in HBNBCommand.dot_cmds:
                 raise Exception
 
             # if parantheses contain arguments, parse them
-            pline = pline[pline.find("(") + 1 : pline.find(")")]
+            pline = pline[pline.find("(") + 1: pline.find(")")]
             if pline:
                 # partition args: (<id>, [<delim>], [<*args>])
                 pline = pline.partition(", ")  # pline convert to tuple
@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                 # isolate _id, stripping quotes
                 _id = pline[0].replace('"', "")
                 # possible bug here:
-                # empty quotes register as empty _id when replaced
+                # empty quotes register as empty id when replaced
 
                 # if arguments exist beyond _id
                 pline = pline[2].strip()  # pline is now str
@@ -125,30 +125,28 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """Create an object of any class"""
-        sp = args.split()
+        sp = args.split(" ")
         if not args:
             print("** class name missing **")
             return
         elif sp[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        elif len(sp) >= 1:
-            new_instance = HBNBCommand.classes[sp[0]]()
-        if len(sp) > 1:
-            for param in sp[1:]:
-                key = param.split("=")
-                if len(key) == 1:
-                    print(
-                        "** create <Class name> <param 1> \
-<param 2> <param 3>... **"
-                    )
-                    return
-                else:
-                    # remove  quotes from string values and underscores
-                    value = key[1].strip('"').replace("_", " ")
-                setattr(new_instance, key[0], value)
-        print(new_instance.id)
-        storage.save()
+        kwargs = {}
+        for i in range(1, len(sp)):
+            key, value = tuple(sp[i].split("="))
+            if value[0] == '"':
+                value = value.strip('"').replace("_", " ")
+                kwargs[key] = value
+            else:
+                print("** attribute value invalid **")
+        if kwargs == {}:
+            obj = HBNBCommand.classes[sp[0]]()
+        else:
+            obj = HBNBCommand.classes[sp[0]](**kwargs)
+            storage.new(obj)
+        print(obj.id)
+        obj.save()
 
     def help_create(self):
         """Help information for the create method"""
@@ -298,8 +296,8 @@ class HBNBCommand(cmd.Cmd):
             args = args[2]
             if args and args[0] == '"':  # check for quoted arg
                 second_quote = args.find('"', 1)
-                att_name = args[1:second_quote]
-                args = args[second_quote + 1 :]
+                att_name = args[1: second_quote]
+                args = args[second_quote + 1:]
 
             args = args.partition(" ")
 
@@ -308,7 +306,7 @@ class HBNBCommand(cmd.Cmd):
                 att_name = args[0]
             # check for quoted val arg
             if args[2] and args[2][0] == '"':
-                att_val = args[2][1 : args[2].find('"', 1)]
+                att_val = args[2][1: args[2].find('"', 1)]
 
             # if att_val was not quoted arg
             if not att_val and args[2]:
