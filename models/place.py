@@ -6,15 +6,6 @@ from sqlalchemy.orm import relationship
 from os import getenv
 import models
 from models.review import Review
-from sqlalchemy import Table
-
-association_table = Table("place_amenity", Base.metadata,
-                          Column("place_id", String(60),
-                                 ForeignKey("places.id"),
-                                 primary_key=True, nullable=False),
-                          Column("amenity_id", String(60),
-                                 ForeignKey("amenities.id"),
-                                 primary_key=True, nullable=False))
 
 class Place(BaseModel, Base):
     """A place to stay"""
@@ -33,9 +24,10 @@ class Place(BaseModel, Base):
     reviews = relationship("Review", backref="place", cascade="delete")
 
     if getenv("HBNB_TYPE_STORAGE", None) != "db":
+
         @property
         def reviews(self):
-            """Getter for list of all Reviews."""
+            """Get a list of all linked Reviews."""
             review_list = []
             for review in list(models.storage.all(Review).values()):
                 if review.place_id == self.id:
