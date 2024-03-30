@@ -138,8 +138,7 @@ class HBNBCommand(cmd.Cmd):
             if value[0] == '"':
                 value = value.strip('"').replace("_", " ")
                 kwargs[key] = value
-            else:
-                print("** attribute value invalid **")
+            
         if kwargs == {}:
             obj = HBNBCommand.classes[sp[0]]()
         else:
