@@ -134,11 +134,11 @@ class HBNBCommand(cmd.Cmd):
             return
         kwargs = {}
         for i in range(1, len(sp)):
-            item = tuple(sp[i].split("="))
-            if len(item)!= 1:
-                if item[1] == '"':
-                    value = item[1].strip('"').replace("_", " ")
-                    kwargs[item[0]] = value
+            key, value = tuple(sp[i].split("="))
+            if value[0] == '"':
+                    value = value.strip('"').replace("_", " ")
+            kwargs[key] = value
+            
 
         if kwargs == {}:
             obj = HBNBCommand.classes[sp[0]]()
