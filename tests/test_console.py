@@ -42,7 +42,7 @@ class TestHBNBCommand(unittest.TestCase):
         except IOError:
             pass
         del cls.HBNB
-        if type(models.storage) == DBStorage:
+        if type(models.storage) is DBStorage:
             models.storage._DBStorage__session.close()
 
     def setUp(self):
