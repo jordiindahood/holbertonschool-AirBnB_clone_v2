@@ -84,11 +84,16 @@ class TestCity(unittest.TestCase):
         self.assertTrue(hasattr(ct, "name"))
         self.assertTrue(hasattr(ct, "state_id"))
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(
+        type(models.storage) == FileStorage,
+        "Testing \
+        FileStorage",
+    )
     def test_nullable_attributes(self):
         """Check that relevant DBStorage attributes are non-nullable."""
         with self.assertRaises(OperationalError):
-            self.dbstorage._DBStorage__session.add(City(state_id=self.state.id))
+            self.dbstorage._DBStorage__session.add(
+                City(state_id=self.state.id))
             self.dbstorage._DBStorage__session.commit()
         self.dbstorage._DBStorage__session.rollback()
         with self.assertRaises(OperationalError):
@@ -96,7 +101,11 @@ class TestCity(unittest.TestCase):
             self.dbstorage._DBStorage__session.commit()
         self.dbstorage._DBStorage__session.rollback()
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(
+        type(models.storage) == FileStorage,
+        "Testing\
+        FileStorage",
+    )
     def test_state_relationship_deletes(self):
         """Test delete cascade in City-State relationship."""
         st = State(name="Georgia")
@@ -143,8 +152,20 @@ class TestCity(unittest.TestCase):
         s = self.city.__str__()
         self.assertIn("[City] ({})".format(self.city.id), s)
         self.assertIn("'id': '{}'".format(self.city.id), s)
-        self.assertIn("'created_at': {}".format(repr(self.city.created_at)), s)
-        self.assertIn("'updated_at': {}".format(repr(self.city.updated_at)), s)
+        self.assertIn(
+            "'created_at': \
+            {}".format(
+                repr(self.city.created_at)
+            ),
+            s,
+        )
+        self.assertIn(
+            "'updated_at': \
+            {}".format(
+                repr(self.city.updated_at)
+            ),
+            s,
+        )
         self.assertIn("'name': '{}'".format(self.city.name), s)
         self.assertIn("'state_id': '{}'".format(self.city.state_id), s)
 
@@ -157,7 +178,11 @@ class TestCity(unittest.TestCase):
         with open("file.json", "r") as f:
             self.assertIn("City." + self.city.id, f.read())
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(
+        type(models.storage) == FileStorage,
+        "Testing \
+        FileStorage",
+    )
     def test_save_dbstorage(self):
         """Test save method with DBStorage."""
         old = self.city.updated_at
@@ -186,8 +211,10 @@ class TestCity(unittest.TestCase):
         self.assertEqual(dict, type(city_dict))
         self.assertEqual(self.city.id, city_dict["id"])
         self.assertEqual("City", city_dict["__class__"])
-        self.assertEqual(self.city.created_at.isoformat(), city_dict["created_at"])
-        self.assertEqual(self.city.updated_at.isoformat(), city_dict["updated_at"])
+        self.assertEqual(self.city.created_at.isoformat(), city_dict["created\
+            _at"])
+        self.assertEqual(self.city.updated_at.isoformat(), city_dict["updated\
+            _at"])
         self.assertEqual(self.city.name, city_dict["name"])
         self.assertEqual(self.city.state_id, city_dict["state_id"])
 
