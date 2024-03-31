@@ -80,7 +80,8 @@ class TestAmenity(unittest.TestCase):
         self.assertTrue(hasattr(us, "name"))
         self.assertTrue(hasattr(us, "place_amenities"))
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(
+        type(models.storage) == FileStorage, "Testing FileStorage")
     def test_email_not_nullable(self):
         """Test that email attribute is non-nullable."""
         with self.assertRaises(OperationalError):
@@ -118,8 +119,20 @@ class TestAmenity(unittest.TestCase):
         s = self.amenity.__str__()
         self.assertIn("[Amenity] ({})".format(self.amenity.id), s)
         self.assertIn("'id': '{}'".format(self.amenity.id), s)
-        self.assertIn("'created_at': {}".format(repr(self.amenity.created_at)), s)
-        self.assertIn("'updated_at': {}".format(repr(self.amenity.updated_at)), s)
+        self.assertIn(
+            "'created_at': \
+            {}".format(
+                repr(self.amenity.created_at)
+            ),
+            s,
+        )
+        self.assertIn(
+            "'updated_at': \
+            {}".format(
+                repr(self.amenity.updated_at)
+            ),
+            s,
+        )
         self.assertIn("'name': '{}'".format(self.amenity.name), s)
 
     @unittest.skipIf(type(models.storage) == DBStorage, "Testing DBStorage")
@@ -131,7 +144,8 @@ class TestAmenity(unittest.TestCase):
         with open("file.json", "r") as f:
             self.assertIn("Amenity." + self.amenity.id, f.read())
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(
+        type(models.storage) == FileStorage, "Testing FileStorage")
     def test_save_dbstorage(self):
         """Test save method with DBStorage."""
         old = self.amenity.updated_at
