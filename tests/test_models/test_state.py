@@ -81,7 +81,8 @@ class TestState(unittest.TestCase):
         self.assertEqual(datetime, type(st.updated_at))
         self.assertTrue(hasattr(st, "name"))
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(type(models.storage) == FileStorage, "Testing \
+        FileStorage")
     def test_nullable_attributes(self):
         """Check that relevant DBStorage attributes are non-nullable."""
         with self.assertRaises(OperationalError):
@@ -89,7 +90,8 @@ class TestState(unittest.TestCase):
             self.dbstorage._DBStorage__session.commit()
         self.dbstorage._DBStorage__session.rollback()
 
-    @unittest.skipIf(type(models.storage) == DBStorage, "Testing DBStorage")
+    @unittest.skipIf(type(models.storage) == DBStorage, "Testing \
+        DBStorage")
     def test_cities(self):
         """Test reviews attribute."""
         key = "{}.{}".format(type(self.city).__name__, self.city.id)
@@ -125,11 +127,27 @@ class TestState(unittest.TestCase):
         s = self.state.__str__()
         self.assertIn("[State] ({})".format(self.state.id), s)
         self.assertIn("'id': '{}'".format(self.state.id), s)
-        self.assertIn("'created_at': {}".format(repr(self.state.created_at)), s)
-        self.assertIn("'updated_at': {}".format(repr(self.state.updated_at)), s)
+        self.assertIn(
+            "'created_at': \
+            {}".format(
+                repr(self.state.created_at)
+            ),
+            s,
+        )
+        self.assertIn(
+            "'updated_at': \
+            {}".format(
+                repr(self.state.updated_at)
+            ),
+            s,
+        )
         self.assertIn("'name': '{}'".format(self.state.name), s)
 
-    @unittest.skipIf(type(models.storage) == DBStorage, "Testing DBStorage")
+    @unittest.skipIf(
+        type(models.storage) == DBStorage,
+        "Testing \
+        DBStorage",
+    )
     def test_save_filestorage(self):
         """Test save method with FileStorage."""
         old = self.state.updated_at
@@ -138,7 +156,11 @@ class TestState(unittest.TestCase):
         with open("file.json", "r") as f:
             self.assertIn("State." + self.state.id, f.read())
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(
+        type(models.storage) == FileStorage,
+        "Testing \
+        FileStorage",
+    )
     def test_save_dbstorage(self):
         """Test save method with DBStorage."""
         old = self.state.updated_at
@@ -166,8 +188,20 @@ class TestState(unittest.TestCase):
         self.assertEqual(dict, type(state_dict))
         self.assertEqual(self.state.id, state_dict["id"])
         self.assertEqual("State", state_dict["__class__"])
-        self.assertEqual(self.state.created_at.isoformat(), state_dict["created_at"])
-        self.assertEqual(self.state.updated_at.isoformat(), state_dict["updated_at"])
+        self.assertEqual(
+            self.state.created_at.isoformat(),
+            state_dict[
+                "\
+            created_at"
+            ],
+        )
+        self.assertEqual(
+            self.state.updated_at.isoformat(),
+            state_dict[
+                "\
+            updated_at"
+            ],
+        )
         self.assertEqual(self.state.name, state_dict["name"])
 
 
