@@ -84,7 +84,8 @@ class TestUser(unittest.TestCase):
         self.assertTrue(hasattr(us, "places"))
         self.assertTrue(hasattr(us, "reviews"))
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(type(models.storage) == FileStorage, "Testing \
+        FileStorage")
     def test_email_not_nullable(self):
         """Test that email attribute is non-nullable."""
         with self.assertRaises(OperationalError):
@@ -122,12 +123,15 @@ class TestUser(unittest.TestCase):
         s = self.user.__str__()
         self.assertIn("[User] ({})".format(self.user.id), s)
         self.assertIn("'id': '{}'".format(self.user.id), s)
-        self.assertIn("'created_at': {}".format(repr(self.user.created_at)), s)
-        self.assertIn("'updated_at': {}".format(repr(self.user.updated_at)), s)
+        self.assertIn("'created_at': \
+            {}".format(repr(self.user.created_at)), s)
+        self.assertIn("'updated_at': \
+            {}".format(repr(self.user.updated_at)), s)
         self.assertIn("'email': '{}'".format(self.user.email), s)
         self.assertIn("'password': '{}'".format(self.user.password), s)
 
-    @unittest.skipIf(type(models.storage) == DBStorage, "Testing DBStorage")
+    @unittest.skipIf(type(models.storage) == DBStorage, "Testing \
+        DBStorage")
     def test_save_filestorage(self):
         """Test save method with FileStorage."""
         old = self.user.updated_at
@@ -136,7 +140,8 @@ class TestUser(unittest.TestCase):
         with open("file.json", "r") as f:
             self.assertIn("User." + self.user.id, f.read())
 
-    @unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+    @unittest.skipIf(type(models.storage) == FileStorage, "Testing \
+        FileStorage")
     def test_save_dbstorage(self):
         """Test save method with DBStorage."""
         old = self.user.updated_at
@@ -164,8 +169,10 @@ class TestUser(unittest.TestCase):
         self.assertEqual(dict, type(user_dict))
         self.assertEqual(self.user.id, user_dict["id"])
         self.assertEqual("User", user_dict["__class__"])
-        self.assertEqual(self.user.created_at.isoformat(), user_dict["created_at"])
-        self.assertEqual(self.user.updated_at.isoformat(), user_dict["updated_at"])
+        self.assertEqual(self.user.created_at.isoformat(), user_dict["\
+            created_at"])
+        self.assertEqual(self.user.updated_at.isoformat(), user_dict["\
+            updated_at"])
         self.assertEqual(self.user.email, user_dict["email"])
         self.assertEqual(self.user.password, user_dict["password"])
 
