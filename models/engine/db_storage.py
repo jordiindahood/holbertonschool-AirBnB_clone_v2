@@ -52,8 +52,7 @@ class DBStorage:
 
     def new(self, obj):
         """add the object to the current database session"""
-        local_obj = self.__session.merge(obj)
-        self.__session.add(local_obj)
+        self.__session.add(obj)
 
     def save(self):
         """commit the current database session"""
@@ -69,8 +68,8 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
-        self.__session = Session()
+        self.__session = Session
 
     def close(self):
         """Close the working SQLAlchemy session."""
-        self.__session.close()
+        self.__session.remove()
