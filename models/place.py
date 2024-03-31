@@ -20,7 +20,7 @@ place_amemity = Table("place_amenity", Base.metadata,
 class Place(BaseModel, Base):
     """A place to stay"""
 
-    _tablename_ = "places"
+    __tablename__ = "places"
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
     name = Column(String(128), nullable=False)
@@ -45,7 +45,7 @@ class Place(BaseModel, Base):
                 if review.place_id == self.id:
                     review_list.append(review)
             return review_list
-        
+
         #testing
         @property
         def amenities(self):
