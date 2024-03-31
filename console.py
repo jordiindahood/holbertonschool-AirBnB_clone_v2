@@ -61,12 +61,12 @@ class HBNBCommand(cmd.Cmd):
             _cls = pline[: pline.find(".")]
 
             # isolate and validate <command>
-            _cmd = pline[pline.find(".") + 1: pline.find("(")]
+            _cmd = pline[pline.find(".") + 1 : pline.find("(")]
             if _cmd not in HBNBCommand.dot_cmds:
                 raise Exception
 
             # if parantheses contain arguments, parse them
-            pline = pline[pline.find("(") + 1: pline.find(")")]
+            pline = pline[pline.find("(") + 1 : pline.find(")")]
             if pline:
                 # partition args: (<id>, [<delim>], [<*args>])
                 pline = pline.partition(", ")  # pline convert to tuple
@@ -136,9 +136,8 @@ class HBNBCommand(cmd.Cmd):
         for i in range(1, len(sp)):
             key, value = tuple(sp[i].split("="))
             if value[0] == '"':
-                    value = value.strip('"').replace("_", " ")
+                value = value.strip('"').replace("_", " ")
             kwargs[key] = value
-            
 
         if kwargs == {}:
             obj = HBNBCommand.classes[sp[0]]()
@@ -297,8 +296,8 @@ class HBNBCommand(cmd.Cmd):
             args = args[2]
             if args and args[0] == '"':  # check for quoted arg
                 second_quote = args.find('"', 1)
-                att_name = args[1: second_quote]
-                args = args[second_quote + 1:]
+                att_name = args[1:second_quote]
+                args = args[second_quote + 1 :]
 
             args = args.partition(" ")
 
@@ -307,7 +306,7 @@ class HBNBCommand(cmd.Cmd):
                 att_name = args[0]
             # check for quoted val arg
             if args[2] and args[2][0] == '"':
-                att_val = args[2][1: args[2].find('"', 1)]
+                att_val = args[2][1 : args[2].find('"', 1)]
 
             # if att_val was not quoted arg
             if not att_val and args[2]:

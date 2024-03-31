@@ -9,6 +9,7 @@ from os import getenv
 import models
 from models.review import Review
 
+
 class Place(BaseModel, Base):
     """A place to stay"""
 

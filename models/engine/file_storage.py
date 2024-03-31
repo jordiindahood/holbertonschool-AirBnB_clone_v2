@@ -68,5 +68,6 @@ class FileStorage:
         else:
             del self.all()[type(obj).__name__ + "." + str(obj.id)]
             self.save()
+
     def close(self):
         pass
