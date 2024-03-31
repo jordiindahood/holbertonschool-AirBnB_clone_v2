@@ -10,13 +10,26 @@ import models
 from sqlalchemy import Table
 from models.review import Review
 
-place_amemity = Table("place_amenity", Base.metadata,
-                          Column("place_id", String(60),
-                                 ForeignKey("places.id"),
-                                 primary_key=True, nullable=False),
-                          Column("amenity_id", String(60),
-                                 ForeignKey("amenities.id"),
-                                 primary_key=True, nullable=False))
+place_amemity = Table(
+    "place_amenity",
+    Base.metadata,
+    Column(
+        "place_id",
+        String(60),
+        ForeignKey("places.id"),
+        primary_key=True,
+        nullable=False,
+    ),
+    Column(
+        "amenity_id",
+        String(60),
+        ForeignKey("amenities.id"),
+        primary_key=True,
+        nullable=False,
+    ),
+)
+
+
 class Place(BaseModel, Base):
     """A place to stay"""
 
@@ -32,8 +45,8 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", backref="place", cascade="delete")
-    amenities = relationship("Amenity", secondary="place_amenity",
-                             viewonly=False)
+    amenities = relationship(
+        "Amenity", secondary="place_amenity", viewonly=False)
     amenity_ids = []
     if getenv("HBNB_TYPE_STORAGE", None) != "db":
 
@@ -46,7 +59,7 @@ class Place(BaseModel, Base):
                     review_list.append(review)
             return review_list
 
-        #testing
+        # testing
         @property
         def amenities(self):
             """Get/set linked Amenities."""
@@ -58,5 +71,5 @@ class Place(BaseModel, Base):
 
         @amenities.setter
         def amenities(self, value):
-            if type(value) == Amenity:
+            if isinstance(value, Amenity):
                 self.amenity_ids.append(value.id)
