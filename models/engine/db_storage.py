@@ -39,7 +39,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """Return all instances of a given class"""
-        classes_to_query = [State, City, User, Place, Review, Amenity]
+        classes_to_query = [State, City, User, Place, Review]
         if cls is None:
             obj = self.__session.query(State).all()
             for cls in classes_to_query:

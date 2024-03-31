@@ -45,15 +45,16 @@ class Place(BaseModel, Base):
                 if review.place_id == self.id:
                     review_list.append(review)
             return review_list
-
+        
+        #testing
         @property
         def amenities(self):
-            """Get a list of all linked amenities."""
-            amenities_list = []
-            for amenities in list(models.storage.all(Amenity).values()):
-                if amenities.place_id == self.id:
-                    amenities_list.append(amenities)
-            return amenities_list
+            """Get/set linked Amenities."""
+            amenity_list = []
+            for amenity in list(models.storage.all(Amenity).values()):
+                if amenity.id in self.amenity_ids:
+                    amenity_list.append(amenity)
+            return amenity_list
 
         @amenities.setter
         def amenities(self, value):
