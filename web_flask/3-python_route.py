@@ -32,7 +32,7 @@ def python_is_cool(text):
     """return a message"""
     text = escape(text)
     new_txt = text.replace("_", " ")
-    return f"python is {new_txt}"
+    return f"python {new_txt}"
 
 
 if __name__ == "__main__":
