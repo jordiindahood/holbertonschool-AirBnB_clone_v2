@@ -20,6 +20,7 @@ def hbnb():
 
 @app.route("/c/<text>", strict_slashes=False)
 def C_is_fun(text):
+    """return a message"""
     return f"C {escape(text)}"
 
 
